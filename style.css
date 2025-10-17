@@ -173,6 +173,7 @@ main .tabla {
 main .tabla table {
     width: 100%;
     border-collapse: collapse;
+    border-radius: 20px;
 }
 
 main .tabla thead {
