@@ -1,0 +1,114 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+
+
+.container {
+
+    padding: 10px 50px;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    background-color: #FCFDFD;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
+    
+
+}
+header .logotipo{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  
+}
+
+header .logotipo .logo{
+
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-radius: 30px;
+    background-color: #00D4FF;
+    
+}
+
+header .logotipo h3{
+    font-weight: 300;
+    color: #666D79;
+}
+
+header .logotipo p{
+    display: inline-block;
+}
+
+header .date{
+
+    width: 300px;
+    border: 1px solid #666D79;
+    border-radius: 30px;
+    padding: 10px;
+}
+
+main .card-list{
+    margin: 25px 10px;
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+main .card-list .card {
+    
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 12px;
+    padding: 20px 30px;
+    width: 300px;
+    height: 150px;
+    background-color: #FFFFFF;
+    border-radius: 30px;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);
+}
+
+main .card-list .card span{
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    border-radius: 30px;
+    
+    
+}
+
+main .card-list .card .llamadas{
+    background-color: #E7F8F2;
+}
+
+main .card-list .card .contestadas{
+    background-color: #EBF2FE;
+}
+
+main .card-list .perdidas{
+    background-color: #FDECEC;
+}
+
+main .card-list .tiempo{
+    background-color: #FDF5E6;
+}
+
+main .card-list .card p{
+    font-size: 14px;
+    color: #666D79;
+}
+
+main .card-list .card h2{
+    font-weight: 400;
+    font-size: 26px;
+    color: #1E293B;
+}
