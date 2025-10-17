@@ -12,9 +12,11 @@ window.addEventListener('DOMContentLoaded', () => {
         .then((data) => {
             const { labels, dataContestadas, dataPerdidas, dataTotal, dataTransferidas } = organizarDatosGraficoVolumenLlamadas(data)
             crearGraficoVolumenDato(labels, dataContestadas, dataPerdidas, dataTotal, dataTransferidas)
-
+            console.log(data)
             const { labelsAgente, contestadasAgente, perdidasAgente, transferidasAgente } = organizarDatosGraficoLlamadasAgente(data)
             crearGraficoLlamadasAGente(labelsAgente, contestadasAgente, perdidasAgente, transferidasAgente)
+        
+            mostrarDatosTabla(data)
         })
         .catch((error) => {
             console.log(error)
@@ -147,6 +149,30 @@ window.addEventListener('DOMContentLoaded', () => {
 
         new Chart(ctx, config);
     };
+
+    const mostrarDatosTabla = (llamadas = []) => {
+
+        const tbody = document.querySelector("#tablaLlamadas tbody")
+        tbody.innerHTML = ""
+
+        llamadas.forEach((llamada) => {
+
+            const fecha = new Date(llamada.datetime).toLocaleDateString()
+            
+
+            const tr = document.createElement("tr")
+
+            tr.innerHTML = `
+                <td>${fecha}</td>
+                <td>${llamada.source}</td>
+                <td>${llamada.extension}</td>
+                <td>${llamada.agent_name}</td>
+                <td>${llamada.status}</td>
+            `;
+            tbody.appendChild(tr)
+        })
+        
+    }
 
 
 

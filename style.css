@@ -119,6 +119,7 @@ main .graficas{
     display: flex;
     gap: 40px;
     flex-wrap: wrap;
+    margin-bottom: 40px;
 }
 
 main .graficas .volumen_llamadas{
@@ -146,4 +147,72 @@ main .graficas .llamadas_agente{
 main .graficas .llamadas_agente #llamadas_agente{
    
     object-fit: cover;
+    height: 700px;
+}
+
+main .tabla {
+    background-color: #fff;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);
+    border-radius: 20px;
+    padding: 15px 20px;
+    width: 80%;
+    margin: 0 auto;
+    max-width: 80px;
+    overflow-x: auto; /* scroll horizontal en móviles */
+}
+
+main .tabla {
+    background-color: #fff;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);
+    border-radius: 20px;
+    padding: 10px;
+    width: 100%;
+    max-width: 1000px;
+}
+
+main .tabla table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+main .tabla thead {
+    display: table;
+    width: 100%;
+    table-layout: fixed; 
+}
+
+main .tabla tbody {
+    display: block;
+    max-height: 400px; 
+    overflow-y: auto;
+    width: 100%;
+}
+
+main .tabla tbody tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+}
+
+main .tabla th {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+    position: sticky;
+    top: 0; /* cabecera fija */
+    z-index: 1;
+}
+
+main .tabla td {
+    background-color: #F7F9FB;
+    padding: 10px;
+    text-align: center;
+}
+
+main .tabla tbody tr:nth-child(even) td {
+    background-color: #E9EFF5;
+}
+
+main .tabla tbody tr:hover td {
+    background-color: rgba(76, 175, 80, 0.1);
 }
