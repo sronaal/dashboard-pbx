@@ -11,7 +11,6 @@
   <br />
   🚀 Fullstack Developer
 </p>
----
 
 # Dashboard PBX
 
@@ -27,7 +26,7 @@ Este proyecto proporciona una interfaz web sencilla que permite visualizar estad
 
 ## 🖥️ Vista Previa
 
-[Enlace](https://sronaal.github.io/PetHome/)
+[Enlace](https://sronaal.github.io/dashboard-pbx/)
 
 ---
 
