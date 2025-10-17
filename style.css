@@ -15,6 +15,7 @@ header {
     display: flex;
     justify-content: space-between;
     background-color: #FCFDFD;
+    gap: 20px;
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
     
 
@@ -111,4 +112,38 @@ main .card-list .card h2{
     font-weight: 400;
     font-size: 26px;
     color: #1E293B;
+}
+
+main .graficas{
+
+    display: flex;
+    gap: 40px;
+    flex-wrap: wrap;
+}
+
+main .graficas .volumen_llamadas{
+    height: 500px;
+    background-color: #ffff;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);
+    width: 600px;
+    padding: 10px;
+    border-radius: 20px;
+}
+
+main .graficas .llamadas_agente{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 500px;
+    background-color: #fff;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);
+    width: 600px;
+    padding: 10px;
+    border-radius: 20px;
+    
+}
+
+main .graficas .llamadas_agente #llamadas_agente{
+   
+    object-fit: cover;
 }

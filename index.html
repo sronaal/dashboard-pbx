@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Dashboard De Llamadas Servidor PBX">
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <title>Analisis Llamadas PBX</title>
 </head>
 
@@ -66,8 +68,19 @@
             </div>
         </section>
 
-    </main>
+        <section class="graficas container">
+            <div class="volumen_llamadas">
+                <canvas id="volumen_llamadas"></canvas>
+            </div>
 
+            <div class="llamadas_agente">
+                <canvas id="llamadas_agente"></canvas>
+            </div>
+        </section>
+
+    </main>
+    <script type="module" src="./script.js"></script>
+    <script type="module" src="./graficos.js"></script>
 </body>
 
 </html>
