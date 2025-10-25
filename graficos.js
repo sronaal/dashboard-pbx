@@ -221,3 +221,44 @@ window.addEventListener('DOMContentLoaded', () => {
     document.getElementById("filtroAgente").addEventListener("change", aplicarFiltros);
     document.getElementById("filtroEstado").addEventListener("change", aplicarFiltros);
 });
+
+
+const inputFecha = document.getElementById("date");
+let llamadasGlobal = [];
+
+window.addEventListener("DOMContentLoaded", () => {
+    const verificarLlamadas = setInterval(() => {
+        const data = window.llamadas || [];
+        if (data.length > 0) {
+            llamadasGlobal = data;
+            clearInterval(verificarLlamadas);
+        }
+    }, 200);
+
+    if (inputFecha) {
+        inputFecha.addEventListener("change", () => {
+            const fechaSeleccionada = inputFecha.value;
+            if (!fechaSeleccionada || llamadasGlobal.length === 0) return;
+
+            const llamadasFiltradas = llamadasGlobal.filter((llamada) => {
+                const fechaLlamada = new Date(llamada.datetime).toISOString().split("T")[0];
+                return fechaLlamada === fechaSeleccionada;
+            });
+
+            if (llamadasFiltradas.length === 0) {
+                mostrarDatosTabla([]);
+                return;
+            }
+
+            const { labels, dataContestadas, dataPerdidas, dataTotal, dataTransferidas } =
+                organizarDatosGraficoVolumenLlamadas(llamadasFiltradas);
+            crearGraficoVolumenDato(labels, dataContestadas, dataPerdidas, dataTotal, dataTransferidas);
+
+            const { labelsAgente, contestadasAgente, perdidasAgente, transferidasAgente } =
+                organizarDatosGraficoLlamadasAgente(llamadasFiltradas);
+            crearGraficoLlamadasAGente(labelsAgente, contestadasAgente, perdidasAgente, transferidasAgente);
+
+            mostrarDatosTabla(llamadasFiltradas);
+        });
+    }
+});
