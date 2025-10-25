@@ -8,7 +8,7 @@
 
 .container {
 
-    padding: 10px 50px;
+    padding: 20px 50px;
 }
 
 header {
@@ -154,26 +154,17 @@ main .tabla {
     background-color: #fff;
     box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);
     border-radius: 20px;
-    padding: 15px 20px;
-    width: 80%;
+    width: 100%;
     margin: 0 auto;
-    max-width: 80px;
+    max-width: 1000px;
     overflow-x: auto; /* scroll horizontal en móviles */
 }
 
-main .tabla {
-    background-color: #fff;
-    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);
-    border-radius: 20px;
-    padding: 10px;
-    width: 100%;
-    max-width: 1000px;
-}
 
 main .tabla table {
     width: 100%;
     border-collapse: collapse;
-    border-radius: 20px;
+    border-radius: 20%;
 }
 
 main .tabla thead {
@@ -196,7 +187,7 @@ main .tabla tbody tr {
 }
 
 main .tabla th {
-    background-color: #4CAF50;
+    background-color: #6B7AE0;
     color: white;
     padding: 10px;
     position: sticky;
@@ -216,4 +207,34 @@ main .tabla tbody tr:nth-child(even) td {
 
 main .tabla tbody tr:hover td {
     background-color: rgba(76, 175, 80, 0.1);
+}
+
+main .estado{
+
+    background-color: black;
+}
+
+main .filtros{
+    display: flex;
+    padding: 20px;
+    align-items: center;
+    gap: 10px;
+}
+
+main .filtros select{
+
+    padding: 10px;
+    width: 200px;
+    border: none;
+    border-radius: 10px;
+}
+
+main .filtros button{
+    align-self: flex-end;
+    padding: 10px;
+    border: none;
+    background-color: #00D4FF;
+    color: white;
+    border-radius: 10px;
+    cursor: pointer;
 }

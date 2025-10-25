@@ -2,29 +2,25 @@ import { organizarDatosGraficoVolumenLlamadas, organizarDatosGraficoLlamadasAgen
 
 window.addEventListener('DOMContentLoaded', () => {
 
-
+    let llamadas = [];
 
     fetch('./calls.json')
+        .then((data) => data.json())
         .then((data) => {
+            llamadas = data;
 
-            return data.json()
+            const { labels, dataContestadas, dataPerdidas, dataTotal, dataTransferidas } = organizarDatosGraficoVolumenLlamadas(data);
+            crearGraficoVolumenDato(labels, dataContestadas, dataPerdidas, dataTotal, dataTransferidas);
+
+            const { labelsAgente, contestadasAgente, perdidasAgente, transferidasAgente } = organizarDatosGraficoLlamadasAgente(data);
+            crearGraficoLlamadasAGente(labelsAgente, contestadasAgente, perdidasAgente, transferidasAgente);
+
+            generarFiltros();
+            mostrarDatosTabla(data);
         })
-        .then((data) => {
-            const { labels, dataContestadas, dataPerdidas, dataTotal, dataTransferidas } = organizarDatosGraficoVolumenLlamadas(data)
-            crearGraficoVolumenDato(labels, dataContestadas, dataPerdidas, dataTotal, dataTransferidas)
-            console.log(data)
-            const { labelsAgente, contestadasAgente, perdidasAgente, transferidasAgente } = organizarDatosGraficoLlamadasAgente(data)
-            crearGraficoLlamadasAGente(labelsAgente, contestadasAgente, perdidasAgente, transferidasAgente)
-        
-            mostrarDatosTabla(data)
-        })
-        .catch((error) => {
-            console.log(error)
-        })
+        .catch((error) => console.log(error));
 
     const crearGraficoVolumenDato = (labels, dataContestadas, dataPerdidas, dataTotal, dataTransferidas) => {
-
-
         const ctx = document.getElementById('volumen_llamadas').getContext('2d');
         const data = {
             labels,
@@ -38,7 +34,6 @@ window.addEventListener('DOMContentLoaded', () => {
                     tension: 0.4,
                     pointRadius: 4,
                     pointHoverRadius: 6
-
                 },
                 {
                     label: "Perdidas",
@@ -64,7 +59,7 @@ window.addEventListener('DOMContentLoaded', () => {
                     label: "Total",
                     data: dataTotal,
                     borderColor: "#FF9800",
-                    backgroundColor: "rbga(255,152,0,0.2)",
+                    backgroundColor: "rgba(255,152,0,0.2)",
                     borderDash: [5, 5],
                     tension: 0.4,
                     fill: false,
@@ -73,7 +68,6 @@ window.addEventListener('DOMContentLoaded', () => {
                 }
             ]
         };
-
 
         const config = {
             type: "line",
@@ -87,7 +81,7 @@ window.addEventListener('DOMContentLoaded', () => {
                     title: {
                         display: true,
                         text: "Volumen de Llamadas",
-                        font: { size: 16, weigth: "bold" }
+                        font: { size: 16, weight: "bold" }
                     },
                     tooltip: {
                         callbacks: {
@@ -105,33 +99,20 @@ window.addEventListener('DOMContentLoaded', () => {
                         grid: { color: "rgba(0,0,0,0.05)" }
                     }
                 }
-
             }
-        }
-        new Chart(ctx, config)
-    }
+        };
+        new Chart(ctx, config);
+    };
 
     const crearGraficoLlamadasAGente = (labelsAgente, contestadasAgente, perdidasAgente, transferidasAgente) => {
         const ctx = document.getElementById('llamadas_agente').getContext('2d');
 
         const data = {
-            labels: labelsAgente,  // <-- nombres de los agentes
+            labels: labelsAgente,
             datasets: [
-                {
-                    label: "Contestadas",
-                    data: contestadasAgente,
-                    backgroundColor: "#4CAF50"
-                },
-                {
-                    label: "Perdidas",
-                    data: perdidasAgente,
-                    backgroundColor: "#F44336"
-                },
-                {
-                    label: "Transferidas",
-                    data: transferidasAgente,
-                    backgroundColor: "#2196F3"
-                }
+                { label: "Contestadas", data: contestadasAgente, backgroundColor: "#4CAF50" },
+                { label: "Perdidas", data: perdidasAgente, backgroundColor: "#F44336" },
+                { label: "Transferidas", data: transferidasAgente, backgroundColor: "#2196F3" }
             ]
         };
 
@@ -141,9 +122,9 @@ window.addEventListener('DOMContentLoaded', () => {
             options: {
                 responsive: true,
                 scales: {
-                   x:{ stacked: true}
-                },
-                y: { stacked: true}
+                    x: { stacked: true },
+                    y: { stacked: true, beginAtZero: true }
+                }
             }
         };
 
@@ -151,34 +132,92 @@ window.addEventListener('DOMContentLoaded', () => {
     };
 
     const mostrarDatosTabla = (llamadas = []) => {
-
-        const tbody = document.querySelector("#tablaLlamadas tbody")
-        tbody.innerHTML = ""
+        const tbody = document.querySelector("#tablaLlamadas tbody");
+        tbody.innerHTML = "";
 
         llamadas.forEach((llamada) => {
+            const fecha = new Date(llamada.datetime).toLocaleDateString();
+            let estado = "";
 
-            const fecha = new Date(llamada.datetime).toLocaleDateString()
-            
+            if (llamada.status === 'answered') estado = 'Contestada';
+            else if (llamada.status === 'missed') estado = 'Perdida';
+            else if (llamada.status === 'transferred') estado = 'Transferida';
 
-            const tr = document.createElement("tr")
-
+            const tr = document.createElement("tr");
             tr.innerHTML = `
                 <td>${fecha}</td>
                 <td>${llamada.source}</td>
                 <td>${llamada.extension}</td>
                 <td>${llamada.agent_name}</td>
-                <td>${llamada.status}</td>
+                <td>${estado}</td>
             `;
-            tbody.appendChild(tr)
-        })
-        
+            tbody.appendChild(tr);
+        });
+    };
+
+    function generarFiltros() {
+        const filtroAgente = document.getElementById("filtroAgente");
+        const filtroEstado = document.getElementById("filtroEstado");
+
+        const agentes = [...new Set(llamadas.map((l) => l.agent_name))];
+        const estados = [...new Set(llamadas.map((l) => l.status))];
+
+        filtroAgente.innerHTML = `<option value="">Todos los agentes</option>`;
+        filtroEstado.innerHTML = `<option value="">Todos los estados</option>`;
+
+        agentes.forEach((agente) => {
+            const option = document.createElement("option");
+            option.value = agente;
+            option.textContent = agente;
+            filtroAgente.appendChild(option);
+        });
+
+        estados.forEach((estado) => {
+            const option = document.createElement("option");
+            option.value = estado;
+            option.textContent =
+                estado === "answered"
+                    ? "Contestada"
+                    : estado === "missed"
+                        ? "Perdida"
+                        : "Transferida";
+            filtroEstado.appendChild(option);
+        });
+    }
+
+    function aplicarFiltros() {
+        const agente = document.getElementById("filtroAgente").value;
+        const estado = document.getElementById("filtroEstado").value;
+
+        const filtradas = llamadas.filter((llamada) => {
+            const coincideAgente = !agente || llamada.agent_name === agente;
+            const coincideEstado = !estado || llamada.status === estado;
+            return coincideAgente && coincideEstado;
+        });
+
+        mostrarDatosTabla(filtradas);
     }
 
 
+    function exportarTablaCSV() {
+        const filas = document.querySelectorAll("#tablaLlamadas table tr");
+        let csv = [];
 
+        filas.forEach((fila) => {
+            const columnas = fila.querySelectorAll("th, td");
+            const valores = Array.from(columnas).map(col => `"${col.innerText}"`);
+            csv.push(valores.join(","));
+        });
 
+        const blob = new Blob([csv.join("\n")], { type: "text/csv;charset=utf-8;" });
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = "llamadas.csv";
+        link.click();
+    }
 
+    document.getElementById("btnExportar").addEventListener("click", exportarTablaCSV);
 
-
-})
-
+    document.getElementById("filtroAgente").addEventListener("change", aplicarFiltros);
+    document.getElementById("filtroEstado").addEventListener("change", aplicarFiltros);
+});
